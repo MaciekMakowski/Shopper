@@ -49,6 +49,17 @@ const ShopConfiguration = () => {
     setNewProduct(emptyProduct);
   };
 
+  const hangeAislePosition = (aisle: Aisle, position: "up" | "down") => {
+    const index = newShop.aisles.findIndex((a) => a.id === aisle.id);
+    if (position === "up" && index === 0) return;
+    if (position === "down" && index === newShop.aisles.length - 1) return;
+    const aisles = [...newShop.aisles];
+    const temp = aisles[index];
+    aisles[index] = aisles[position === "up" ? index - 1 : index + 1];
+    aisles[position === "up" ? index - 1 : index + 1] = temp;
+    setNewShop({ ...newShop, aisles });
+  };
+
   const handleDeleteAisle = (id: string) => {
     setNewShop({
       ...newShop,
@@ -179,6 +190,7 @@ const ShopConfiguration = () => {
         setNewShop={setNewShop}
         handleDeleteAisle={handleDeleteAisle}
         handleOpenAddProduct={handleOpenAddProduct}
+        hangeAislePosition={hangeAislePosition}
       />
       <ProductColumn
         activeAisle={activeAisle}

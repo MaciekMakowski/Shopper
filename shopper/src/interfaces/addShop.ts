@@ -13,6 +13,7 @@ interface AddedItemsProps {
   setNewShop: (shop: Shop) => void;
   handleDeleteItem: (id: string) => void;
   handleOpenAddSubItem?: (item: Aisle | Product) => void;
+  hangeAislePosition: (aisle: Aisle, position: "up" | "down") => void;
 }
 
 interface NewProduct {
@@ -33,6 +34,7 @@ interface AisleColumnProps {
   setNewShop: (shop: Shop) => void;
   handleDeleteAisle: (id: string) => void;
   handleOpenAddProduct: (aisle: Aisle) => void;
+  hangeAislePosition: (aisle: Aisle, position: "up" | "down") => void;
 }
 
 interface ProductColumnProps {

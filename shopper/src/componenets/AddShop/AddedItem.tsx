@@ -1,6 +1,8 @@
 import AddIcon from "@/assets/icons/addIcon.svg?react";
+import IconDown from "@/assets/icons/downIcon.svg?react";
 import EditIcon from "@/assets/icons/editIcon.svg?react";
 import Trashcan from "@/assets/icons/trashcan.svg?react";
+import IconUp from "@/assets/icons/upIcon.svg?react";
 import { AddedItemsProps } from "@/interfaces/addShop";
 import { Shop } from "@/interfaces/shop";
 import { FC, useState } from "react";
@@ -10,6 +12,7 @@ const AddedItem: FC<AddedItemsProps> = ({
   handleOpenAddSubItem,
   newShop,
   setNewShop,
+  hangeAislePosition,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -24,7 +27,7 @@ const AddedItem: FC<AddedItemsProps> = ({
       };
 
       setNewShop(updatedShop);
-    } else if ("name" in item) {
+    } else {
       const updatedShop: Shop = {
         ...newShop,
         aisles: newShop.aisles.map((aisle) => ({
@@ -58,7 +61,25 @@ const AddedItem: FC<AddedItemsProps> = ({
         </>
       ) : (
         <>
-          <span>{item.name}</span>
+          <div className="flex gap-2">
+            {"products" in item && (
+              <div>
+                <button
+                  className="text-primary rounded-md"
+                  onClick={() => hangeAislePosition(item, "up")}
+                >
+                  <IconUp width={20} height={20} />
+                </button>
+                <button
+                  className="text-primary rounded-md"
+                  onClick={() => hangeAislePosition(item, "down")}
+                >
+                  <IconDown width={20} height={20} />
+                </button>
+              </div>
+            )}
+            <span>{item.name}</span>
+          </div>
           <div className="flex gap-2">
             <button
               className="text-black rounded h-fit"

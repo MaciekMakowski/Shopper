@@ -16,6 +16,7 @@ const AisleColumn: FC<AisleColumnProps> = ({
   setNewShop,
   handleDeleteAisle,
   handleOpenAddProduct,
+  hangeAislePosition,
 }) => {
   return (
     <div className="flex flex-col gap-4 bg-white shadow-md h-full p-4 rounded-md">
@@ -53,6 +54,7 @@ const AisleColumn: FC<AisleColumnProps> = ({
               handleOpenAddSubItem={() => handleOpenAddProduct(aisle)}
               newShop={newShop}
               setNewShop={setNewShop}
+              hangeAislePosition={hangeAislePosition}
             />
           ))}
       </div>
