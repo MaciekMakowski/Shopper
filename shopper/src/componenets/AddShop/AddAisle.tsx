@@ -1,6 +1,6 @@
+import AddIcon from "@/assets/icons/addIcon.svg?react";
 import { NewAisle } from "@/interfaces/addShop";
 import { FC } from "react";
-
 const AddAisle: FC<NewAisle> = ({
   isAddingAisle,
   newAisle,
@@ -17,13 +17,13 @@ const AddAisle: FC<NewAisle> = ({
             placeholder="Aisle Name"
             value={newAisle.name}
             onChange={(e) => setNewAisle({ ...newAisle, name: e.target.value })}
-            className="p-2 border border-gray-300 rounded-md w-[70%]"
+            className="p-2 border border-gray-300 rounded-md w-full"
           />
           <button
-            className="py-2 bg-secondary rounded-md border-primary border-2 flex-1"
+            className="p-2 rounded-md border-primary border-2"
             onClick={handleAddAisleToShop}
           >
-            <span>Add Aisle</span>
+            <AddIcon className="text-primary" width={20} height={20} />
           </button>
         </div>
       )}
