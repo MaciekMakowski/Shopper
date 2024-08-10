@@ -7,7 +7,7 @@ interface HeaderProps {
 
 interface ListProps {
   header: HeaderProps;
-  items: ReactNode[];
+  children: ReactNode;
 }
 
 export { HeaderProps, ListProps };

@@ -16,5 +16,10 @@ interface Product {
   id: string;
   name: string;
 }
+interface ShopTableProps {
+  shops: Shop[];
+  onEdit: (shop: Shop) => void;
+  onDelete: (id: string) => void;
+}
 
-export { Aisle, Product, Shop };
+export { Aisle, Product, Shop, ShopTableProps };

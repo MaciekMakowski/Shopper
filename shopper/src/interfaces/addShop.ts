@@ -1,4 +1,4 @@
-import { Aisle, Product } from "./shop";
+import { Aisle, Product, Shop } from "./shop";
 
 interface NewAisle {
   isAddingAisle: boolean;
@@ -7,10 +7,10 @@ interface NewAisle {
   handleAddAisleToShop: () => void;
 }
 
-interface AddedAisleProps {
-  aisle: Aisle;
-  handleDeleteAisle: (id: string) => void;
-  handleOpenAddProduct: (aisle: Aisle) => void;
+interface AddedItemsProps {
+  item: Aisle | Product;
+  handleDeleteItem: (id: string) => void;
+  handleOpenAddSubItem?: (item: Aisle | Product) => void;
 }
 
 interface NewProduct {
@@ -21,4 +21,33 @@ interface NewProduct {
   activeAisle: Aisle | null;
 }
 
-export { AddedAisleProps, NewAisle, NewProduct };
+interface AisleColumnProps {
+  isAddingAisle: boolean;
+  setIsAddingAisle: (isAddingAisle: boolean) => void;
+  newAisle: Aisle;
+  setNewAisle: (newAisle: Aisle) => void;
+  handleAddAisleToShop: () => void;
+  newShop: Shop;
+  handleDeleteAisle: (id: string) => void;
+  handleOpenAddProduct: (aisle: Aisle) => void;
+}
+
+interface ProductColumnProps {
+  activeAisle: Aisle | null;
+  isAddingAisle: boolean;
+  isAddingProduct: boolean;
+  setIsAddingProduct: (isAddingProduct: boolean) => void;
+  newProduct: Product;
+  setNewProduct: (product: Product) => void;
+  handleAddProductToAisle: (aisle: Aisle) => void;
+  handleDeleteProduct: (id: string) => void;
+  getProducts: (aisle: Aisle) => Product[];
+}
+
+export {
+  AddedItemsProps,
+  AisleColumnProps,
+  NewAisle,
+  NewProduct,
+  ProductColumnProps,
+};

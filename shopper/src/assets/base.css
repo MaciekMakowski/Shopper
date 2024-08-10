@@ -11,6 +11,7 @@
   --color-black: #111;
   --color-white: #f3f3f3;
   --color-danger: rgb(225 29 72);
+  --color-warning: rgb(249 115 22);
 }
 
 body {
@@ -79,4 +80,14 @@ body {
 }
 .border-danger {
   border-color: var(--color-danger);
+}
+
+.bg-warning {
+  background-color: var(--color-warning);
+}
+.text-warning {
+  color: var(--color-warning);
+}
+.border-warning {
+  border-color: var(--color-warning);
 }
