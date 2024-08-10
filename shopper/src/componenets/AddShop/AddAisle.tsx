@@ -10,17 +10,17 @@ const AddAisle: FC<NewAisle> = ({
   return (
     <>
       {isAddingAisle && (
-        <div className="flex flex-col gap-2">
-          <label htmlFor="aisleName">Aisle Name</label>
+        <div className="flex gap-2">
           <input
             id="aisleName"
             type="text"
+            placeholder="Aisle Name"
             value={newAisle.name}
             onChange={(e) => setNewAisle({ ...newAisle, name: e.target.value })}
-            className="p-2 border border-gray-300 rounded-md"
+            className="p-2 border border-gray-300 rounded-md w-[70%]"
           />
           <button
-            className="py-2 bg-secondary rounded-md border-primary border-2"
+            className="py-2 bg-secondary rounded-md border-primary border-2 flex-1"
             onClick={handleAddAisleToShop}
           >
             <span>Add Aisle</span>

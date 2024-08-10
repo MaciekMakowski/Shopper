@@ -7,11 +7,12 @@ import { FC } from "react";
 
 const ProductColumn: FC<ProductColumnProps> = ({
   activeAisle,
-  isAddingAisle,
   isAddingProduct,
   setIsAddingProduct,
   newProduct,
   setNewProduct,
+  newShop,
+  setNewShop,
   handleAddProductToAisle,
   handleDeleteProduct,
   getProducts,
@@ -22,14 +23,16 @@ const ProductColumn: FC<ProductColumnProps> = ({
         <div className="flex flex-col gap-4 bg-white shadow-md h-full p-4 rounded-md">
           <header>
             <div className="flex w-full justify-between">
-              <h2 className="text-2xl font-bold">Products</h2>
+              <h2 className="text-2xl font-bold font-secondary">
+                Products for {activeAisle.name}
+              </h2>
               <button
                 className={`${
-                  isAddingAisle ? "bg-warning" : "bg-primary"
+                  isAddingProduct ? "bg-warning" : "bg-primary"
                 } p-2 flex rounded h-fit`}
                 onClick={() => setIsAddingProduct(!isAddingProduct)}
               >
-                {isAddingAisle ? (
+                {isAddingProduct ? (
                   <CloseIcon className="text-white" width={20} height={20} />
                 ) : (
                   <AddIcon className="text-white" width={20} height={20} />
@@ -52,6 +55,8 @@ const ProductColumn: FC<ProductColumnProps> = ({
                   key={product.id}
                   item={product}
                   handleDeleteItem={() => handleDeleteProduct(product.id)}
+                  newShop={newShop}
+                  setNewShop={setNewShop}
                 />
               ))}
           </div>

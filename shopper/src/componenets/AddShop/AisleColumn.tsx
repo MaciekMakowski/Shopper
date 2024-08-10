@@ -13,6 +13,7 @@ const AisleColumn: FC<AisleColumnProps> = ({
   setNewAisle,
   handleAddAisleToShop,
   newShop,
+  setNewShop,
   handleDeleteAisle,
   handleOpenAddProduct,
 }) => {
@@ -20,7 +21,7 @@ const AisleColumn: FC<AisleColumnProps> = ({
     <div className="flex flex-col gap-4 bg-white shadow-md h-full p-4 rounded-md">
       <header>
         <div className="flex w-full justify-between">
-          <h2 className="text-2xl font-bold">Aisles</h2>
+          <h2 className="text-2xl font-bold font-secondary">Aisles</h2>
           <button
             className={`${
               isAddingAisle ? "bg-warning" : "bg-primary"
@@ -50,6 +51,8 @@ const AisleColumn: FC<AisleColumnProps> = ({
               item={aisle}
               handleDeleteItem={() => handleDeleteAisle(aisle.id)}
               handleOpenAddSubItem={() => handleOpenAddProduct(aisle)}
+              newShop={newShop}
+              setNewShop={setNewShop}
             />
           ))}
       </div>

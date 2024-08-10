@@ -10,9 +10,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Shop, ShopTableProps } from "../interfaces/shop";
 
-const ShopTable: React.FC<ShopTableProps> = ({ shops, onEdit, onDelete }) => {
+const ShopTable: React.FC<ShopTableProps> = ({ shops, onDelete }) => {
+  const navigate = useNavigate();
   const columns = useMemo<ColumnDef<Shop>[]>(
     () => [
       {
@@ -39,7 +41,7 @@ const ShopTable: React.FC<ShopTableProps> = ({ shops, onEdit, onDelete }) => {
         header: "Actions",
         cell: ({ row }) => (
           <div className="flex gap-2 justify-center">
-            <button onClick={() => onEdit(row.original)}>
+            <button onClick={() => navigate(`/editShop/${row.original.id}`)}>
               <EditIcon width={24} height={24} />
             </button>
             <button onClick={() => onDelete(row.original.id)}>
@@ -49,7 +51,7 @@ const ShopTable: React.FC<ShopTableProps> = ({ shops, onEdit, onDelete }) => {
         ),
       },
     ],
-    [onEdit, onDelete]
+    [onDelete]
   );
 
   const table = useReactTable({

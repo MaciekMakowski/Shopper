@@ -18,7 +18,6 @@ interface Product {
 }
 interface ShopTableProps {
   shops: Shop[];
-  onEdit: (shop: Shop) => void;
   onDelete: (id: string) => void;
 }
 

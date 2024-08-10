@@ -9,6 +9,8 @@ interface NewAisle {
 
 interface AddedItemsProps {
   item: Aisle | Product;
+  newShop: Shop;
+  setNewShop: (shop: Shop) => void;
   handleDeleteItem: (id: string) => void;
   handleOpenAddSubItem?: (item: Aisle | Product) => void;
 }
@@ -28,6 +30,7 @@ interface AisleColumnProps {
   setNewAisle: (newAisle: Aisle) => void;
   handleAddAisleToShop: () => void;
   newShop: Shop;
+  setNewShop: (shop: Shop) => void;
   handleDeleteAisle: (id: string) => void;
   handleOpenAddProduct: (aisle: Aisle) => void;
 }
@@ -38,6 +41,8 @@ interface ProductColumnProps {
   isAddingProduct: boolean;
   setIsAddingProduct: (isAddingProduct: boolean) => void;
   newProduct: Product;
+  newShop: Shop;
+  setNewShop: (shop: Shop) => void;
   setNewProduct: (product: Product) => void;
   handleAddProductToAisle: (aisle: Aisle) => void;
   handleDeleteProduct: (id: string) => void;

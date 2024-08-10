@@ -1,5 +1,5 @@
 import ShopTable from "@/componenets/ShopTable";
-import { getAllShops } from "@/idb/shopController";
+import { deleteShop, getAllShops } from "@/idb/shopController";
 import { useEffect, useState } from "react";
 import { Shop } from "../interfaces/shop";
 
@@ -12,6 +12,11 @@ const Shops = () => {
     setShops(shopsList);
   };
 
+  const handleDeleteShop = (id: string) => {
+    setShops(shops.filter((shop) => shop.id !== id));
+    deleteShop(id);
+  };
+
   useEffect(() => {
     getShops();
   }, []);
@@ -20,7 +25,7 @@ const Shops = () => {
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-3xl font-bold font-secondary">Shops</h1>
       <p>List of all your shops</p>
-      <ShopTable shops={shops} onEdit={() => {}} onDelete={() => {}} />
+      <ShopTable shops={shops} onDelete={handleDeleteShop} />
     </div>
   );
 };
