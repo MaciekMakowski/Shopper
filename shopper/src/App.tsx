@@ -5,6 +5,7 @@ import Home from "@/pages/Home";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AddShoppingList from "./pages/AddShoppingList";
 import Products from "./pages/Products";
+import ShoppingLists from "./pages/ShoppingLists";
 import Shops from "./pages/Shops";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/edit-shop/:id" element={<AddShop />} />
           <Route path="/products" element={<Products />} />
           <Route path="/add-shopping-list" element={<AddShoppingList />} />
+          <Route path="/shopping-lists" element={<ShoppingLists />} />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </Layout>

@@ -1,17 +1,30 @@
 import List from "@/components/list/List";
 import { getAllShops } from "@/idb/shopController";
-import { LastShoppingList, ShoppingList, ShopsList } from "@/mockups/home";
+import { getAllShoppingLists } from "@/idb/shoppingListController";
+import { ShoppingList } from "@/interfaces/shoppingList";
+import {
+  LastShoppingList,
+  ShoppingList as shList,
+  ShopsList,
+} from "@/mockups/home";
 import { ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Shop } from "../interfaces/shop";
 const Home = () => {
   const [shopsList, setShopsList] = useState<Shop[]>([]);
+  const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
   const navigate = useNavigate();
 
   const handleGetAllShops = async () => {
     const shops = await getAllShops();
     if (!shops || shops.length === 0) return;
     setShopsList(shops);
+  };
+
+  const handleGetShoppingList = async () => {
+    const shoppingLists = await getAllShoppingLists();
+    if (!shoppingLists || shoppingLists.length === 0) return;
+    setShoppingLists(shoppingLists);
   };
 
   const handleGenerateShopList = (): ReactNode => {
@@ -23,8 +36,18 @@ const Home = () => {
     ));
   };
 
+  const handleGenerateShoppingList = (): ReactNode => {
+    return shoppingLists.map((shoppingList) => (
+      <div key={shoppingList.id} className="p-2 border-2 rounded-lg shadow-md">
+        <h2 className="font-semibold">{shoppingList.name}</h2>
+        <p className="text-sm">{shoppingList.date}</p>
+      </div>
+    ));
+  };
+
   useEffect(() => {
     handleGetAllShops();
+    handleGetShoppingList();
   }, []);
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -42,12 +65,12 @@ const Home = () => {
         </List>
         <List
           header={{
-            text: ShoppingList.header.text,
-            description: ShoppingList.header.description,
+            text: shList.header.text,
+            description: shList.header.description,
             onClick: () => navigate("/add-shopping-list"),
           }}
         >
-          <p>Shopping list</p>
+          {handleGenerateShoppingList()}
         </List>
 
         <List header={LastShoppingList.header}>

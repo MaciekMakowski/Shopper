@@ -4,6 +4,7 @@ import AddProductModal from "@/components/addShoppingList/AddProductModal";
 import ShopDropdown from "@/components/addShoppingList/ShopDropdown";
 import { addProduct } from "@/idb/productsController";
 import { getAllShops, updateShop } from "@/idb/shopController";
+import { saveShoppingList } from "@/idb/shoppingListController";
 import { Aisle, Product, Shop } from "@/interfaces/shop";
 import { ProductInList, ShoppingList } from "@/interfaces/shoppingList";
 import { emptyAisle, emptyProduct } from "@/mockups/addShop";
@@ -42,7 +43,6 @@ const AddShoppingList = () => {
     const aisle = newShoppingList.shop.aisles.find((aisle) =>
       aisle.products.find((product) => product.name === newProduct.product.name)
     );
-    console.log(aisle);
     setNewShoppingList({
       ...newShoppingList,
       products: [
@@ -111,6 +111,19 @@ const AddShoppingList = () => {
     setNewAisle(emptyAisle);
   };
 
+  const handleGenerateShoppingList = async () => {
+    const sortedProductsByAisle = newShoppingList.products.sort((a, b) =>
+      a.aisle.localeCompare(b.aisle)
+    );
+    const shoppingList = {
+      ...newShoppingList,
+      id: uuidv4(),
+      products: sortedProductsByAisle,
+    };
+
+    await saveShoppingList(shoppingList);
+  };
+
   const handleSaveProduct = () => {
     setIsOpen(false);
     const updatedShop = newShoppingList.shop;
@@ -153,7 +166,15 @@ const AddShoppingList = () => {
   };
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-3xl font-bold font-secondary">New Shopping list</h1>
+      <div className="flex gap-4 items-center">
+        <h1 className="text-3xl font-bold font-secondary">New Shopping list</h1>
+        <button
+          className="p-1 border-primary border-2 text-primary rounded-md"
+          onClick={() => handleGenerateShoppingList()}
+        >
+          Save
+        </button>
+      </div>
       <p>Here you can create new shopping list</p>
       <div className="grid grid-cols-3 gap-8">
         <div className="flex flex-col gap-4">
@@ -252,7 +273,7 @@ const AddShoppingList = () => {
           <h2 className="text-xl font-semibold font-secondary">
             Added products
           </h2>
-          <ul className="grid no-scrollbar">
+          <ul className="flex flex-col gap-2">
             <li className="p-2 grid grid-cols-4 gap-2">
               <span className="font-semibold text-center">Product</span>
               <span className="font-semibold text-center">Quantity</span>
