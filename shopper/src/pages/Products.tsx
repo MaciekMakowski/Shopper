@@ -24,7 +24,7 @@ const Products = () => {
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-3xl font-bold font-secondary">Products</h1>
       <p>Here you can see list of all added products</p>
-      <ul className="flex flex-wrap gap-2">
+      <ul className="flex flex-wrap gap-2 max-h-[70vh] overflow-y-auto">
         {products.map((product) => (
           <li
             key={product.id}

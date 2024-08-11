@@ -166,7 +166,7 @@ const AddShoppingList = () => {
     addProduct(productToAdd);
   };
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-4 overflow-x-hidden">
       <div className="flex gap-4 items-center">
         <h1 className="text-3xl font-bold font-secondary">New Shopping list</h1>
         <button
@@ -177,7 +177,7 @@ const AddShoppingList = () => {
         </button>
       </div>
       <p>Here you can create new shopping list</p>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="flex flex-col gap-4">
           <div>
             <label htmlFor="name">Name*</label>
@@ -270,11 +270,11 @@ const AddShoppingList = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 p-4 rounded-lg bg-white">
+        <div className="flex flex-col gap-4 p-4 rounded-lg bg-white overflow-x-auto">
           <h2 className="text-xl font-semibold font-secondary">
             Added products
           </h2>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 min-w-[400px] w-full">
             <li className="p-2 grid grid-cols-4 gap-2">
               <span className="font-semibold text-center">Product</span>
               <span className="font-semibold text-center">Quantity</span>

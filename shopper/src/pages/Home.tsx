@@ -49,11 +49,12 @@ const Home = () => {
     handleGetAllShops();
     handleGetShoppingList();
   }, []);
+
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-4 max-h-[90vh] overflow-y-auto">
       <h1 className="text-3xl font-bold font-secondary">Home</h1>
       <p>Welcome to the home page</p>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <List
           header={{
             text: ShopsList.header.text,

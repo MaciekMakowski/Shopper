@@ -27,7 +27,7 @@ const ShoppingLists = () => {
     <div className="flex flex-col gap-4 p-4 w-full">
       <h1 className="text-3xl font-bold font-secondary">Shopping Lists</h1>
       <p>Here you can see list of all your shopping lists</p>
-      <ul className="grid grid-cols-4 w-full gap-8">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-8 max-h-[70vh] overflow-y-auto">
         {shoppingLists.map((shoppingList) => (
           <li
             key={shoppingList.id}

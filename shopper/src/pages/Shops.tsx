@@ -22,10 +22,12 @@ const Shops = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-3xl font-bold font-secondary">Shops</h1>
+    <div className="flex flex-col gap-4 p-4 overflow-hidden">
+      <h1 className="text-3xl font-bold font-secondary w-full">Shops</h1>
       <p>List of all your shops</p>
-      <ShopTable shops={shops} onDelete={handleDeleteShop} />
+      <div className="max-w-[60vw] overflow-x-auto">
+        <ShopTable shops={shops} onDelete={handleDeleteShop} />
+      </div>
     </div>
   );
 };

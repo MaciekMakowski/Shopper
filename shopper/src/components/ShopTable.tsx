@@ -62,7 +62,7 @@ const ShopTable: React.FC<ShopTableProps> = ({ shops, onDelete }) => {
   });
 
   return (
-    <div className="w-full rounded-xl overflow-hidden border border-gray-300">
+    <div className="w-full rounded-xl border border-gray-300">
       <table className="w-full">
         <thead className="bg-gray-100">
           {table.getHeaderGroups().map((headerGroup) => (
