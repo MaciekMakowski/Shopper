@@ -1,4 +1,5 @@
-import { getAllProducts } from "@/idb/productsController";
+import DeleteIcon from "@/assets/icons/trashcan.svg?react";
+import { deleteProduct, getAllProducts } from "@/idb/productsController";
 import { Product } from "@/interfaces/shop";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,11 @@ const Products = () => {
   const handleGetProducts = async () => {
     const products = await getAllProducts();
     setProducts(products);
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    await deleteProduct(id);
+    setProducts(products.filter((product) => product.id !== id));
   };
 
   useEffect(() => {
@@ -22,9 +28,12 @@ const Products = () => {
         {products.map((product) => (
           <li
             key={product.id}
-            className="p-2 border border-primary rounded-md w-fit"
+            className="p-2 border border-primary rounded-md w-fit flex items-center gap-2"
           >
             {product.name}
+            <button>
+              <DeleteIcon onClick={() => handleDeleteProduct(product.id)} />
+            </button>
           </li>
         ))}
       </ul>
