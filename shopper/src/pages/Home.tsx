@@ -1,4 +1,4 @@
-import List from "@/componenets/List/List";
+import List from "@/components/list/List";
 import { getAllShops } from "@/idb/shopController";
 import { LastShoppingList, ShoppingList, ShopsList } from "@/mockups/home";
 import { ReactNode, useEffect, useState } from "react";
@@ -16,13 +16,10 @@ const Home = () => {
 
   const handleGenerateShopList = (): ReactNode => {
     return shopsList.map((shop) => (
-      <>
-        <div key={shop.id}>
-          <h2>{shop.name}</h2>
-          <p>{shop.location}</p>
-        </div>
-        <hr className="border-dashed border-2 h-0" />
-      </>
+      <div key={shop.id} className="p-2 border-2 rounded-lg shadow-md">
+        <h2 className="font-semibold">{shop.name}</h2>
+        <p className="text-sm">{shop.location}</p>
+      </div>
     ));
   };
 
@@ -38,12 +35,18 @@ const Home = () => {
           header={{
             text: ShopsList.header.text,
             description: ShopsList.header.description,
-            onClick: () => navigate("/addShop"),
+            onClick: () => navigate("/add-shop"),
           }}
         >
           {handleGenerateShopList()}
         </List>
-        <List header={ShoppingList.header}>
+        <List
+          header={{
+            text: ShoppingList.header.text,
+            description: ShoppingList.header.description,
+            onClick: () => navigate("/add-shopping-list"),
+          }}
+        >
           <p>Shopping list</p>
         </List>
 

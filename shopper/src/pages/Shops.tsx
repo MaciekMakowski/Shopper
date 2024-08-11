@@ -1,4 +1,4 @@
-import ShopTable from "@/componenets/ShopTable";
+import ShopTable from "@/components/ShopTable";
 import { deleteShop, getAllShops } from "@/idb/shopController";
 import { useEffect, useState } from "react";
 import { Shop } from "../interfaces/shop";

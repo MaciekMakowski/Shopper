@@ -29,6 +29,12 @@ const Menu = () => {
         >
           Products
         </li>
+        <li
+          className="font-medium text-xl cursor-pointer py-2 border-b border-dashed"
+          onClick={() => navigate("/recepiees")}
+        >
+          Recepiees
+        </li>
       </ul>
     </nav>
   );

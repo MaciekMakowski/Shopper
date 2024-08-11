@@ -1,11 +1,11 @@
-import AisleColumn from "@/componenets/AddShop/AisleColumn";
-import ProductColumn from "@/componenets/AddShop/ProductColumn";
+import AisleColumn from "@/components/addShop/AisleColumn";
+import ProductColumn from "@/components/addShop/ProductColumn";
 import { getShop, saveShop, updateShop } from "@/idb/shopController";
 import { Aisle, Product, Shop } from "@/interfaces/shop";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { addProducts } from "../idb/productsController";
+import { addProducts, getAllProducts } from "../idb/productsController";
 import { emptyAisle, emptyProduct, emptyShop } from "../mockups/addShop";
 
 const ShopConfiguration = () => {
@@ -17,6 +17,7 @@ const ShopConfiguration = () => {
   const [isAddingAisle, setIsAddingAisle] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [activeAisle, setActiveAisle] = useState<Aisle | null>(null);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
 
   const handleAddAisleToShop = () => {
     if (!newAisle.name) {
@@ -35,13 +36,25 @@ const ShopConfiguration = () => {
       alert("Product name is required");
       return;
     }
+    if (
+      newAisle.products.some(
+        (product) =>
+          product.name.toLowerCase() === newProduct.name.toLowerCase()
+      )
+    ) {
+      alert("Product already exists in this aisle");
+      return;
+    }
     setNewShop({
       ...newShop,
       aisles: newShop.aisles.map((aisle) =>
         aisle.id === newAisle.id
           ? {
               ...aisle,
-              products: [...aisle.products, { ...newProduct, id: uuidv4() }],
+              products: [
+                ...aisle.products,
+                { id: uuidv4(), name: newProduct.name.toLowerCase() },
+              ],
             }
           : aisle
       ),
@@ -131,9 +144,16 @@ const ShopConfiguration = () => {
     setNewShop(shop);
   };
 
+  const handleGetAllProducts = async () => {
+    const allProducts = await getAllProducts();
+    if (!allProducts) return;
+    setAllProducts(allProducts);
+  };
+
   useEffect(() => {
     if (!shopId) return;
     getExistingShop(shopId);
+    handleGetAllProducts();
   }, [shopId]);
 
   return (
@@ -204,6 +224,7 @@ const ShopConfiguration = () => {
         handleAddProductToAisle={handleAddProductToAisle}
         handleDeleteProduct={handleDeleteProduct}
         getProducts={getProducts}
+        allProducts={allProducts}
       />
     </div>
   );

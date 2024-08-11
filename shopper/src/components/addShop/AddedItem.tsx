@@ -62,7 +62,7 @@ const AddedItem: FC<AddedItemsProps> = ({
       ) : (
         <>
           <div className="flex gap-2">
-            {"products" in item && (
+            {"products" in item && hangeAislePosition && (
               <div>
                 <button
                   className="text-primary rounded-md"

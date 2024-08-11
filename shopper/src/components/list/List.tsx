@@ -1,4 +1,4 @@
-import Header from "@/componenets/List/Header";
+import Header from "@/components/list/Header";
 import { ListProps } from "@/interfaces/homeList";
 import { FC } from "react";
 const List: FC<ListProps> = ({ header, children }) => {

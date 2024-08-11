@@ -91,3 +91,12 @@ body {
 .border-warning {
   border-color: var(--color-warning);
 }
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

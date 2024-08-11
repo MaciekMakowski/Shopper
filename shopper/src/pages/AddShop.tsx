@@ -1,4 +1,4 @@
-import ShopConfiguration from "@/componenets/ShopConfiguration";
+import ShopConfiguration from "@/components/ShopConfiguration";
 
 const AddShop = () => {
   return (

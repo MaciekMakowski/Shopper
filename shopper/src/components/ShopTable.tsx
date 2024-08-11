@@ -41,7 +41,7 @@ const ShopTable: React.FC<ShopTableProps> = ({ shops, onDelete }) => {
         header: "Actions",
         cell: ({ row }) => (
           <div className="flex gap-2 justify-center">
-            <button onClick={() => navigate(`/editShop/${row.original.id}`)}>
+            <button onClick={() => navigate(`/edit-shop/${row.original.id}`)}>
               <EditIcon width={24} height={24} />
             </button>
             <button onClick={() => onDelete(row.original.id)}>

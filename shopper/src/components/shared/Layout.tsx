@@ -1,6 +1,6 @@
-import Header from "@/componenets/Header";
+import Header from "@/components/shared/Header";
 import { FC, ReactNode } from "react";
-import Menu from "./Menu";
+import Menu from "../Menu";
 interface LayoutProps {
   children: ReactNode;
 }

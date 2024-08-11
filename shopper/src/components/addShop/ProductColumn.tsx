@@ -1,7 +1,7 @@
 import AddIcon from "@/assets/icons/addIcon.svg?react";
 import CloseIcon from "@/assets/icons/closeIcon.svg?react";
-import AddProduct from "@/componenets/AddShop/AddProduct";
-import AddedItem from "@/componenets/AddShop/AddedItem";
+import AddProduct from "@/components/addShop/AddProduct";
+import AddedItem from "@/components/addShop/AddedItem";
 import { ProductColumnProps } from "@/interfaces/addShop";
 import { FC } from "react";
 
@@ -16,6 +16,7 @@ const ProductColumn: FC<ProductColumnProps> = ({
   handleAddProductToAisle,
   handleDeleteProduct,
   getProducts,
+  allProducts,
 }) => {
   return (
     <>
@@ -47,6 +48,7 @@ const ProductColumn: FC<ProductColumnProps> = ({
             setNewProduct={setNewProduct}
             handleAddProductToAisle={handleAddProductToAisle}
             activeAisle={activeAisle}
+            allProducts={allProducts}
           />
           <div className="flex flex-col gap-2">
             {activeAisle &&
