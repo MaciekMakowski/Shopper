@@ -112,8 +112,9 @@ const AddShoppingList = () => {
   };
 
   const handleGenerateShoppingList = async () => {
-    const sortedProductsByAisle = newShoppingList.products.sort((a, b) =>
-      a.aisle.localeCompare(b.aisle)
+    const ailesOrder = newShoppingList.shop.aisles.map((aisle) => aisle.name);
+    const sortedProductsByAisle = newShoppingList.products.sort(
+      (a, b) => ailesOrder.indexOf(a.aisle) - ailesOrder.indexOf(b.aisle)
     );
     const shoppingList = {
       ...newShoppingList,
