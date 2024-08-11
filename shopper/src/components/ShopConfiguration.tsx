@@ -153,8 +153,11 @@ const ShopConfiguration = () => {
   useEffect(() => {
     if (!shopId) return;
     getExistingShop(shopId);
-    handleGetAllProducts();
   }, [shopId]);
+
+  useEffect(() => {
+    handleGetAllProducts();
+  }, []);
 
   return (
     <div className="grid grid-cols-3 gap-8">
