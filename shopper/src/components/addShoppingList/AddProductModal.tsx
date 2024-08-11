@@ -1,4 +1,4 @@
-import AddIcon from "@/assets/icons/AddIcon.svg?react";
+import AddIcon from "@/assets/icons/addIcon.svg?react";
 import Modal from "@/components/shared/Modal";
 import { AddProductModalProps } from "@/interfaces/components";
 import { FC } from "react";

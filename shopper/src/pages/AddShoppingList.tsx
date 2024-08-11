@@ -1,4 +1,4 @@
-import AddIcon from "@/assets/icons/AddIcon.svg?react";
+import AddIcon from "@/assets/icons/addIcon.svg?react";
 import TrashcanIcon from "@/assets/icons/trashcan.svg?react";
 import AddProductModal from "@/components/addShoppingList/AddProductModal";
 import ShopDropdown from "@/components/addShoppingList/ShopDropdown";
