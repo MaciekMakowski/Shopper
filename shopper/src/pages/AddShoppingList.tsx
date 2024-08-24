@@ -190,7 +190,6 @@ const AddShoppingList = () => {
     setProducts(
       shoppingList.shop.aisles.flatMap((aisle: Aisle) => aisle.products)
     );
-    console.log(shoppingList);
   };
 
   const handleDeleteProductFromShoppingList = (id: string) => {
