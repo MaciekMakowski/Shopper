@@ -1,31 +1,16 @@
 import "@/assets/styles.css";
 import Layout from "@/components/shared/Layout";
-import AddShop from "@/pages/AddShop";
-import Home from "@/pages/Home";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import AddShoppingList from "./pages/AddShoppingList";
-import Products from "./pages/Products";
-import ShoppingLists from "./pages/ShoppingLists";
-import Shops from "./pages/Shops";
+import { BrowserRouter as Router } from "react-router-dom";
+import AnimatedRoutes from "./components/AnimatedRoutes";
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/add-shop" element={<AddShop />} />
-          <Route path="/shops" element={<Shops />} />
-          <Route path="/edit-shop/:id" element={<AddShop />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/add-shopping-list" element={<AddShoppingList />} />
-          <Route path="/edit-shopping-list/:id" element={<AddShoppingList />} />
-          <Route path="/shopping-lists" element={<ShoppingLists />} />
-          <Route path="*" element={<h1>404</h1>} />
-        </Routes>
+        <AnimatedRoutes />
       </Layout>
     </Router>
   );
-}
+};
 
 export default App;
