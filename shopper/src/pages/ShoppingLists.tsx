@@ -66,7 +66,6 @@ const ShoppingLists = () => {
         return list;
       })
     );
-    console.log(updatedShoppingList);
     await updateShoppingList({
       ...shoppingList,
       products: updatedShoppingList,
