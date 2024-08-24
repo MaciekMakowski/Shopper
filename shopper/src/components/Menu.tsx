@@ -59,14 +59,14 @@ const Menu: FC<MenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         >
           Products
         </li>
-        <li
+        {/* <li
           className={`font-medium text-xl cursor-pointer py-2 border-b border-dashed ${isActive(
             "/recepiees"
           )}`}
           onClick={() => handleActive("/recepiees")}
         >
           Recepiees
-        </li>
+        </li> */}
       </ul>
     </motion.nav>
   );
