@@ -4,7 +4,7 @@ import { FC } from "react";
 const Modal: FC<ModalProps> = ({ isOpen, setIsOpen, children }) => {
   return (
     <div
-      className={`fixed inset-0 backdrop-blur-sm bg-opacity-30 z-50 flex justify-center items-center ${
+      className={`fixed inset-0 px-4 backdrop-blur-sm bg-opacity-30 z-50 flex justify-center items-center ${
         isOpen ? "" : "hidden"
       }`}
     >

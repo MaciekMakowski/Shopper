@@ -15,21 +15,23 @@ const AreYouSureModal: FC<AreYouSureModalProps> = ({
         {trigger}
       </button>
       <Modal isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
-        <h1 className="font-semibold text-xl">{title}</h1>
-        <p className="text-lg font-light">{message}</p>
-        <div className="flex w-full justify-between">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="px-6 py-2 border border-dark-primary rounded-md"
-          >
-            No
-          </button>
-          <button
-            onClick={onConfirm}
-            className="px-6 py-2 bg-warning rounded-md"
-          >
-            Yes
-          </button>
+        <div className="flex flex-col gap-2">
+          <h1 className="font-semibold text-xl">{title}</h1>
+          <p className="text-lg font-light">{message}</p>
+          <div className="flex w-full justify-between">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="px-6 py-2 bg-primary text-white rounded-md"
+            >
+              No
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-6 py-2 border-2 border-warning rounded-md text-warning"
+            >
+              Yes
+            </button>
+          </div>
         </div>
       </Modal>
     </>
