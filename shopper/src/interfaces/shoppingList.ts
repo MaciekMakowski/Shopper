@@ -9,6 +9,7 @@ interface ShoppingList {
 }
 
 interface ProductInList {
+  id: string;
   product: Product;
   quantity: string;
   aisle: string;

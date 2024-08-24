@@ -55,7 +55,10 @@ const AddProductModal: FC<AddProductModalProps> = ({
         </div>
         <button
           className="p-2 bg-blue-500 text-white rounded-md"
-          onClick={handleSaveProduct}
+          onClick={() => {
+            handleSaveProduct();
+            setSelectedAisle("");
+          }}
           disabled={!newProduct.aisle || newProduct.aisle.length === 0}
         >
           Save Product

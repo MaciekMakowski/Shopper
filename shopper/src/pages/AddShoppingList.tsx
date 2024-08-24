@@ -7,28 +7,32 @@ import { getAllShops, updateShop } from "@/idb/shopController";
 import {
   getShoppingList,
   saveShoppingList,
+  updateShoppingList,
 } from "@/idb/shoppingListController";
 import { Aisle, Product, Shop } from "@/interfaces/shop";
 import { ProductInList, ShoppingList } from "@/interfaces/shoppingList";
 import { emptyAisle, emptyProduct } from "@/mockups/addShop";
 import { emptyShoppingList } from "@/mockups/shoppingList";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+
 const AddShoppingList = () => {
   const shoppingListId = useParams<{ id: string }>().id;
   const [newShoppingList, setNewShoppingList] =
     useState<ShoppingList>(emptyShoppingList);
   const [shops, setShops] = useState<Shop[]>([]);
-  const [newProduct, setNewProduct] = useState<ProductInList>({
-    product: emptyProduct,
-    quantity: "",
-    aisle: "",
-  });
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [newAisle, setNewAisle] = useState<Aisle>(emptyAisle);
+  const [newProduct, setNewProduct] = useState<ProductInList>({
+    id: "",
+    product: emptyProduct,
+    quantity: "",
+    aisle: "",
+  });
+  const navigate = useNavigate();
 
   const handleGetShops = async () => {
     const shops = await getAllShops();
@@ -55,13 +59,14 @@ const AddShoppingList = () => {
       products: [
         ...newShoppingList.products,
         {
+          id: uuidv4(),
           product: newProduct.product,
           quantity: newProduct.quantity,
           aisle: aisle?.name || "",
         },
       ],
     });
-    setNewProduct({ product: emptyProduct, quantity: "", aisle: "" });
+    setNewProduct({ id: "", product: emptyProduct, quantity: "", aisle: "" });
     setFilteredProducts([]);
   };
 
@@ -81,17 +86,6 @@ const AddShoppingList = () => {
       setFilteredProducts([]);
     }
   };
-
-  useEffect(() => {
-    handleGetShops();
-    const toDay = new Date().toISOString().split("T")[0];
-    setNewShoppingList({
-      ...newShoppingList,
-      date: toDay,
-    });
-    if (!shoppingListId) return;
-    handleGetShoppingList(shoppingListId);
-  }, []);
 
   const addNewAisle = () => {
     if (newAisle.name === "") {
@@ -129,13 +123,23 @@ const AddShoppingList = () => {
     const sortedProductsByAisle = newShoppingList.products.sort(
       (a, b) => ailesOrder.indexOf(a.aisle) - ailesOrder.indexOf(b.aisle)
     );
-    const shoppingList = {
-      ...newShoppingList,
-      id: uuidv4(),
-      products: sortedProductsByAisle,
-    };
 
-    await saveShoppingList(shoppingList);
+    if (shoppingListId) {
+      const updatedShoppingList = {
+        ...newShoppingList,
+        products: sortedProductsByAisle,
+      };
+      await updateShoppingList(updatedShoppingList);
+    } else {
+      const shoppingList = {
+        ...newShoppingList,
+        id: uuidv4(),
+        products: sortedProductsByAisle,
+      };
+      await saveShoppingList(shoppingList);
+    }
+
+    navigate("/shopping-lists");
   };
 
   const handleSaveProduct = () => {
@@ -162,6 +166,7 @@ const AddShoppingList = () => {
       products: [
         ...newShoppingList.products,
         {
+          id: uuidv4(),
           product: newProduct.product,
           quantity: newProduct.quantity,
           aisle: newProduct.aisle,
@@ -174,10 +179,11 @@ const AddShoppingList = () => {
       .find((aisle) => aisle.id === newProduct.aisle)
       ?.products.find((product) => product.name === newProduct.product.name);
 
-    setNewProduct({ product: emptyProduct, quantity: "", aisle: "" });
+    setNewProduct({ id: "", product: emptyProduct, quantity: "", aisle: "" });
     if (!productToAdd) return;
     addProduct(productToAdd);
   };
+
   const handleGetShoppingList = async (id: string) => {
     const shoppingList = await getShoppingList(id);
     setNewShoppingList(shoppingList);
@@ -185,6 +191,27 @@ const AddShoppingList = () => {
       shoppingList.shop.aisles.flatMap((aisle: Aisle) => aisle.products)
     );
   };
+
+  const handleDeleteProductFromShoppingList = (id: string) => {
+    const updatedShoppingList = newShoppingList.products.filter(
+      (product) => product.id !== id
+    );
+    setNewShoppingList({
+      ...newShoppingList,
+      products: updatedShoppingList,
+    });
+  };
+
+  useEffect(() => {
+    handleGetShops();
+    const toDay = new Date().toISOString().split("T")[0];
+    setNewShoppingList({
+      ...newShoppingList,
+      date: toDay,
+    });
+    if (!shoppingListId) return;
+    handleGetShoppingList(shoppingListId);
+  }, []);
   return (
     <div className="flex flex-col gap-4 p-4 overflow-x-hidden h-full">
       <div className="flex gap-4 items-center">
@@ -305,7 +332,7 @@ const AddShoppingList = () => {
             </li>
             {newShoppingList.products.map((product) => (
               <li
-                key={product.product.id}
+                key={product.id}
                 className="p-2 border border-gray-300 rounded-md grid grid-cols-4 gap-2 max-h-10"
               >
                 <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap truncate">
@@ -315,7 +342,12 @@ const AddShoppingList = () => {
                 <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap truncate">
                   {product.aisle}
                 </span>
-                <button className="flex justify-center">
+                <button
+                  className="flex justify-center"
+                  onClick={() =>
+                    handleDeleteProductFromShoppingList(product.id)
+                  }
+                >
                   <TrashcanIcon width={24} height={24} />
                 </button>
               </li>
