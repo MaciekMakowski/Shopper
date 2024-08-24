@@ -4,15 +4,19 @@ import AddProductModal from "@/components/addShoppingList/AddProductModal";
 import ShopDropdown from "@/components/addShoppingList/ShopDropdown";
 import { addProduct } from "@/idb/productsController";
 import { getAllShops, updateShop } from "@/idb/shopController";
-import { saveShoppingList } from "@/idb/shoppingListController";
+import {
+  getShoppingList,
+  saveShoppingList,
+} from "@/idb/shoppingListController";
 import { Aisle, Product, Shop } from "@/interfaces/shop";
 import { ProductInList, ShoppingList } from "@/interfaces/shoppingList";
 import { emptyAisle, emptyProduct } from "@/mockups/addShop";
 import { emptyShoppingList } from "@/mockups/shoppingList";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-
 const AddShoppingList = () => {
+  const shoppingListId = useParams<{ id: string }>().id;
   const [newShoppingList, setNewShoppingList] =
     useState<ShoppingList>(emptyShoppingList);
   const [shops, setShops] = useState<Shop[]>([]);
@@ -33,6 +37,9 @@ const AddShoppingList = () => {
   };
 
   const handleAddProduct = () => {
+    if (newProduct.product.name === "")
+      return alert("Please enter product name");
+    if (newProduct.quantity === "") return alert("Please enter quantity");
     const product = products.find(
       (product) => product.name === newProduct.product.name
     );
@@ -82,6 +89,8 @@ const AddShoppingList = () => {
       ...newShoppingList,
       date: toDay,
     });
+    if (!shoppingListId) return;
+    handleGetShoppingList(shoppingListId);
   }, []);
 
   const addNewAisle = () => {
@@ -112,6 +121,10 @@ const AddShoppingList = () => {
   };
 
   const handleGenerateShoppingList = async () => {
+    if (!newShoppingList.shop.name) return alert("Please select shop first");
+    if (!newShoppingList.name) return alert("Please enter shopping list name");
+    if (newShoppingList.products.length < 1)
+      return alert("Please add products to shopping list");
     const ailesOrder = newShoppingList.shop.aisles.map((aisle) => aisle.name);
     const sortedProductsByAisle = newShoppingList.products.sort(
       (a, b) => ailesOrder.indexOf(a.aisle) - ailesOrder.indexOf(b.aisle)
@@ -165,8 +178,15 @@ const AddShoppingList = () => {
     if (!productToAdd) return;
     addProduct(productToAdd);
   };
+  const handleGetShoppingList = async (id: string) => {
+    const shoppingList = await getShoppingList(id);
+    setNewShoppingList(shoppingList);
+    setProducts(
+      shoppingList.shop.aisles.flatMap((aisle: Aisle) => aisle.products)
+    );
+  };
   return (
-    <div className="flex flex-col gap-4 p-4 overflow-x-hidden">
+    <div className="flex flex-col gap-4 p-4 overflow-x-hidden h-full">
       <div className="flex gap-4 items-center">
         <h1 className="text-3xl font-bold font-secondary">New Shopping list</h1>
         <button
@@ -222,14 +242,35 @@ const AddShoppingList = () => {
             <h2 className="text-xl font-semibold">Products</h2>
             <div className="flex flex-col gap-2 relative">
               <div className="flex gap-4 w-full">
-                <input
-                  type="text"
-                  placeholder="Product name"
-                  value={newProduct.product.name}
-                  onChange={handleProductNameChange}
-                  className="p-2 border border-gray-300 rounded-md w-4/6"
-                  disabled={newShoppingList.shop.name === ""}
-                />
+                <div className="relative w-4/6">
+                  <input
+                    type="text"
+                    placeholder="Product name"
+                    value={newProduct.product.name}
+                    onChange={handleProductNameChange}
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={newShoppingList.shop.name === ""}
+                  />
+                  {filteredProducts.length > 0 && (
+                    <ul className="absolute z-10 top-12 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                      {filteredProducts.map((product) => (
+                        <li
+                          key={product.id}
+                          onClick={() => {
+                            setNewProduct({
+                              ...newProduct,
+                              product: product,
+                            });
+                            setFilteredProducts([]);
+                          }}
+                          className="p-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          {product.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
                 <input
                   type="text"
                   placeholder="Quantity"
@@ -248,25 +289,6 @@ const AddShoppingList = () => {
                   <AddIcon width={24} height={24} />
                 </button>
               </div>
-              {filteredProducts.length > 0 && (
-                <ul className="absolute z-10 top-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                  {filteredProducts.map((product) => (
-                    <li
-                      key={product.id}
-                      onClick={() => {
-                        setNewProduct({
-                          ...newProduct,
-                          product: product,
-                        });
-                        setFilteredProducts([]);
-                      }}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                    >
-                      {product.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
           </div>
         </div>
@@ -286,11 +308,13 @@ const AddShoppingList = () => {
                 key={product.product.id}
                 className="p-2 border border-gray-300 rounded-md grid grid-cols-4 gap-2 max-h-10"
               >
-                <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap">
+                <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap truncate">
                   {product.product.name}
                 </span>
                 <span className="text-center">{product.quantity}</span>
-                <span className="text-center">{product.aisle}</span>
+                <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap truncate">
+                  {product.aisle}
+                </span>
                 <button className="flex justify-center">
                   <TrashcanIcon width={24} height={24} />
                 </button>

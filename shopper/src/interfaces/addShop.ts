@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { Aisle, Product, Shop } from "./shop";
 
 interface NewAisle {
@@ -10,7 +11,7 @@ interface NewAisle {
 interface AddedItemsProps {
   item: Aisle | Product;
   newShop: Shop;
-  setNewShop: (shop: Shop) => void;
+  setNewShop: Dispatch<SetStateAction<Shop>>;
   handleDeleteItem: (id: string) => void;
   handleOpenAddSubItem?: (item: Aisle | Product) => void;
   hangeAislePosition?: (aisle: Aisle, position: "up" | "down") => void;
@@ -19,7 +20,7 @@ interface AddedItemsProps {
 interface NewProduct {
   newProduct: Product;
   isAddingProduct: boolean;
-  setNewProduct: (product: Product) => void;
+  setNewProduct: Dispatch<SetStateAction<Product>>;
   handleAddProductToAisle: (aisle: Aisle) => void;
   activeAisle: Aisle | null;
   allProducts: Product[];
@@ -27,12 +28,12 @@ interface NewProduct {
 
 interface AisleColumnProps {
   isAddingAisle: boolean;
-  setIsAddingAisle: (isAddingAisle: boolean) => void;
+  setIsAddingAisle: Dispatch<SetStateAction<boolean>>;
   newAisle: Aisle;
-  setNewAisle: (newAisle: Aisle) => void;
+  setNewAisle: Dispatch<SetStateAction<Aisle>>;
   handleAddAisleToShop: () => void;
   newShop: Shop;
-  setNewShop: (shop: Shop) => void;
+  setNewShop: Dispatch<SetStateAction<Shop>>;
   handleDeleteAisle: (id: string) => void;
   handleOpenAddProduct: (aisle: Aisle) => void;
   hangeAislePosition: (aisle: Aisle, position: "up" | "down") => void;
@@ -42,11 +43,11 @@ interface ProductColumnProps {
   activeAisle: Aisle | null;
   isAddingAisle: boolean;
   isAddingProduct: boolean;
-  setIsAddingProduct: (isAddingProduct: boolean) => void;
+  setIsAddingProduct: Dispatch<SetStateAction<boolean>>;
   newProduct: Product;
   newShop: Shop;
-  setNewShop: (shop: Shop) => void;
-  setNewProduct: (product: Product) => void;
+  setNewShop: Dispatch<SetStateAction<Shop>>;
+  setNewProduct: Dispatch<SetStateAction<Product>>;
   handleAddProductToAisle: (aisle: Aisle) => void;
   handleDeleteProduct: (id: string) => void;
   getProducts: (aisle: Aisle) => Product[];

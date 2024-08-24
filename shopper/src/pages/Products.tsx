@@ -5,10 +5,21 @@ import { useEffect, useState } from "react";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  const handleSearchProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length === 0) return setFilteredProducts(products);
+    const filteredProductsLocal = products.filter((product) =>
+      product.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredProducts(filteredProductsLocal);
+  };
 
   const handleGetProducts = async () => {
     const products = await getAllProducts();
     setProducts(products);
+    setFilteredProducts(products);
   };
 
   const handleDeleteProduct = async (id: string) => {
@@ -23,12 +34,20 @@ const Products = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-3xl font-bold font-secondary">Products</h1>
-      <p>Here you can see list of all added products</p>
-      <ul className="flex flex-wrap gap-2 max-h-[70vh] overflow-y-auto">
-        {products.map((product) => (
+      <div className="w-full flex justify-between md:items-center flex-col md:flex-row items-start gap-2">
+        <p>Here you can see list of all added products</p>
+        <input
+          type="text"
+          placeholder="Search product"
+          className="p-2 border border-gray-300 rounded-md"
+          onChange={handleSearchProduct}
+        />
+      </div>
+      <ul className="flex flex-wrap gap-2 max-h-[65vh] md:max-h-[70vh] pb-2 overflow-y-auto">
+        {filteredProducts.map((product) => (
           <li
             key={product.id}
-            className="p-2 border border-primary rounded-md w-fit flex items-center gap-2"
+            className="p-2 border border-primary rounded-md w-fit flex items-center gap-2 bg-stone-50 shadow-md"
           >
             {product.name}
             <button>

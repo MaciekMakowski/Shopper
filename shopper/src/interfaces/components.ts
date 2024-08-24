@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Aisle, Product, Shop } from "./shop";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Aisle, Shop } from "./shop";
 import { ProductInList, ShoppingList } from "./shoppingList";
 interface AccordionProps {
   head: ReactNode;
@@ -9,24 +9,24 @@ interface AccordionProps {
 
 interface ShopDropdownProps {
   shops: Shop[];
-  setNewShoppingList: (newShoppingList: ShoppingList) => void;
+  setNewShoppingList: Dispatch<SetStateAction<ShoppingList>>;
   newShoppingList: ShoppingList;
-  setProducts: (products: Product[]) => void;
+  setProducts: Dispatch<SetStateAction<ProductInList[]>>;
 }
 
 interface ModalProps {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 }
 
 interface AddProductModalProps {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   newProduct: ProductInList;
-  setNewProduct: (newProduct: ProductInList) => void;
+  setNewProduct: Dispatch<SetStateAction<ProductInList>>;
   newAisle: Aisle;
-  setNewAisle: (newAisle: Aisle) => void;
+  setNewAisle: Dispatch<SetStateAction<Aisle>>;
   addNewAisle: () => void;
   handleSaveProduct: () => void;
   newShoppingList: ShoppingList;

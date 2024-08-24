@@ -1,14 +1,25 @@
+import EditIcon from "@/assets/icons/editIcon.svg?react";
 import ExportIcon from "@/assets/icons/export.svg?react";
-import { getAllShoppingLists } from "@/idb/shoppingListController";
+import Delete from "@/assets/icons/trashcan.svg?react";
+import {
+  deleteShoppingList,
+  getAllShoppingLists,
+} from "@/idb/shoppingListController";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProductInList, ShoppingList } from "../interfaces/shoppingList";
 const ShoppingLists = () => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
-
+  const navigate = useNavigate();
   const handleGetShoppingLists = async () => {
     const shoppingLists = await getAllShoppingLists();
     if (!shoppingLists || shoppingLists.length === 0) return;
     setShoppingLists(shoppingLists);
+  };
+
+  const handleDeleteShoppingList = (id: string) => {
+    setShoppingLists(shoppingLists.filter((list) => list.id !== id));
+    deleteShoppingList(id);
   };
 
   useEffect(() => {
@@ -16,8 +27,17 @@ const ShoppingLists = () => {
   }, []);
 
   const exportToStorage = (products: ProductInList[]) => {
+    let currentAisle = "";
     const listFromProductsAsText = products
-      .map((product) => `${product.product.name} - ${product.quantity}`)
+      .map((product) => {
+        let result = "";
+        if (product.aisle !== currentAisle) {
+          currentAisle = product.aisle;
+          result += `${currentAisle}:\n`;
+        }
+        result += `  ${product.product.name} - ${product.quantity}`;
+        return result;
+      })
       .join("\n");
 
     navigator.clipboard.writeText(listFromProductsAsText);
@@ -35,12 +55,28 @@ const ShoppingLists = () => {
           >
             <div className="flex justify-between">
               <span className="font-semibold text-xl">{shoppingList.name}</span>
-              <ExportIcon
-                className="cursor-pointer"
-                width={24}
-                height={24}
-                onClick={() => exportToStorage(shoppingList.products)}
-              />
+              <div className="flex gap-2">
+                <ExportIcon
+                  className="cursor-pointer"
+                  width={24}
+                  height={24}
+                  onClick={() => exportToStorage(shoppingList.products)}
+                />
+                <EditIcon
+                  className="cursor-pointer"
+                  width={24}
+                  height={24}
+                  onClick={() =>
+                    navigate(`/edit-shopping-list/${shoppingList.id}`)
+                  }
+                />
+                <Delete
+                  className="cursor-pointer"
+                  width={24}
+                  height={24}
+                  onClick={() => handleDeleteShoppingList(shoppingList.id)}
+                />
+              </div>
             </div>
             <div className="flex gap-2 items-end">
               <span>{shoppingList.shop.name}</span>

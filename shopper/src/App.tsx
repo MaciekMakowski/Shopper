@@ -19,6 +19,7 @@ function App() {
           <Route path="/edit-shop/:id" element={<AddShop />} />
           <Route path="/products" element={<Products />} />
           <Route path="/add-shopping-list" element={<AddShoppingList />} />
+          <Route path="/edit-shopping-list/:id" element={<AddShoppingList />} />
           <Route path="/shopping-lists" element={<ShoppingLists />} />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>

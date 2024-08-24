@@ -1,7 +1,7 @@
 import AddIcon from "@/assets/icons/addIcon.svg?react";
 import Modal from "@/components/shared/Modal";
 import { AddProductModalProps } from "@/interfaces/components";
-import { FC } from "react";
+import { FC, useState } from "react";
 const AddProductModal: FC<AddProductModalProps> = ({
   isOpen,
   setIsOpen,
@@ -13,7 +13,11 @@ const AddProductModal: FC<AddProductModalProps> = ({
   handleSaveProduct,
   newShoppingList,
 }) => {
-  console.log(newProduct);
+  const [selectedAisle, setSelectedAisle] = useState<string>("");
+  const handleChangeAisle = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedAisle(e.target.value);
+    setNewProduct({ ...newProduct, aisle: e.target.value });
+  };
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="flex flex-col gap-2">
@@ -24,18 +28,12 @@ const AddProductModal: FC<AddProductModalProps> = ({
         </p>
         <select
           className="p-2 border border-gray-300 rounded-md"
-          value={newProduct.aisle}
-          onChange={(e) => {
-            const aisle = newShoppingList.shop.aisles.find(
-              (aisle) => aisle.id === e.target.value
-            );
-            if (!aisle) return;
-            setNewProduct({ ...newProduct, aisle: aisle.name });
-          }}
+          value={selectedAisle}
+          onChange={handleChangeAisle}
         >
           <option value="">Select Aisle</option>
           {newShoppingList.shop.aisles.map((aisle, index) => (
-            <option key={index} value={aisle.id}>
+            <option key={index} value={aisle.name}>
               {aisle.name}
             </option>
           ))}
