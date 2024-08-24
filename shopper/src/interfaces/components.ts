@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { Aisle, Shop } from "./shop";
+import { Aisle, Product, Shop } from "./shop";
 import { ProductInList, ShoppingList } from "./shoppingList";
 interface AccordionProps {
   head: ReactNode;
@@ -11,7 +11,7 @@ interface ShopDropdownProps {
   shops: Shop[];
   setNewShoppingList: Dispatch<SetStateAction<ShoppingList>>;
   newShoppingList: ShoppingList;
-  setProducts: Dispatch<SetStateAction<ProductInList[]>>;
+  setProducts: Dispatch<SetStateAction<Product[]>>;
 }
 
 interface ModalProps {
