@@ -133,7 +133,7 @@ const ShoppingLists = () => {
                 </li>
                 {shoppingList.products.map((product, index) => (
                   <li key={index} className="grid grid-cols-2 w-full">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
                       <input
                         type="checkbox"
                         checked={product.isBought}

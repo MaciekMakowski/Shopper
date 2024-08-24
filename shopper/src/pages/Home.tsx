@@ -98,7 +98,7 @@ const Home = () => {
         <div className="flex flex-col gap-2">
           {lastShoppingList.products.map((product, index) => (
             <div key={index} className="grid grid-cols-2 text-center">
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <input
                   type="checkbox"
                   checked={product.isBought}
