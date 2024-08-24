@@ -190,11 +190,12 @@ const AddShoppingList = () => {
     setProducts(
       shoppingList.shop.aisles.flatMap((aisle: Aisle) => aisle.products)
     );
+    console.log(shoppingList);
   };
 
   const handleDeleteProductFromShoppingList = (id: string) => {
     const updatedShoppingList = newShoppingList.products.filter(
-      (product) => product.id !== id
+      (product) => product.product.id !== id
     );
     setNewShoppingList({
       ...newShoppingList,
@@ -330,9 +331,9 @@ const AddShoppingList = () => {
               <span className="font-semibold text-center">Aisle</span>
               <span className="font-semibold text-center">Actions</span>
             </li>
-            {newShoppingList.products.map((product) => (
+            {newShoppingList.products.map((product, index) => (
               <li
-                key={product.id}
+                key={index}
                 className="p-2 border border-gray-300 rounded-md grid grid-cols-4 gap-2 max-h-10"
               >
                 <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap truncate">
@@ -345,7 +346,7 @@ const AddShoppingList = () => {
                 <button
                   className="flex justify-center"
                   onClick={() =>
-                    handleDeleteProductFromShoppingList(product.id)
+                    handleDeleteProductFromShoppingList(product.product.id)
                   }
                 >
                   <TrashcanIcon width={24} height={24} />
