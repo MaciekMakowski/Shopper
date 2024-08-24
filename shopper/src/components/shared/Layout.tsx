@@ -12,7 +12,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <Header setIsMenuOpen={setIsMenuOpen} />
       <main className="flex h-full">
         <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-        <div className="w-full h-full bg-white-soft">{children}</div>
+        <div className="w-full h-full bg-white-soft overflow-x-hidden">
+          {children}
+        </div>
       </main>
     </div>
   );
