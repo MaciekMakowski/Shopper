@@ -22,7 +22,7 @@ const Menu: FC<MenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
       initial={{ width: isMobile ? 0 : "250px" }}
       animate={{ width: isMobile && isMenuOpen ? 250 : isMobile ? 0 : "250px" }}
       transition={{ duration: 0.3 }}
-      className={`z-30 absolute md:relative md:w-64 shadow-md bg-white-soft h-[100vh] overflow-hidden ${
+      className={`z-30 absolute md:relative md:w-64 shadow-md bg-white-soft h-[100vh] md:h-auto overflow-hidden ${
         isMenuOpen && isMobile ? "w-[250px]" : "w-0"
       }`}
     >

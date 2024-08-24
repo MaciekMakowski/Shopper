@@ -663,6 +663,14 @@ video {
   max-height: 90vh;
 }
 
+.max-h-\[80vh\] {
+  max-height: 80vh;
+}
+
+.max-h-\[75vh\] {
+  max-height: 75vh;
+}
+
 .w-0 {
   width: 0px;
 }
@@ -1156,6 +1164,10 @@ body {
 
   .md\:hidden {
     display: none;
+  }
+
+  .md\:h-auto {
+    height: auto;
   }
 
   .md\:max-h-\[70vh\] {

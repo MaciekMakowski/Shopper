@@ -3,8 +3,9 @@ import { getAllShops } from "@/idb/shopController";
 import {
   getAllShoppingLists,
   getLastShoppingList,
+  updateShoppingList,
 } from "@/idb/shoppingListController";
-import { ShoppingList } from "@/interfaces/shoppingList";
+import { ProductInList, ShoppingList } from "@/interfaces/shoppingList";
 import {
   LastShoppingList,
   ShoppingList as shList,
@@ -35,6 +36,29 @@ const Home = () => {
     const lastShoppingList = await getLastShoppingList();
     if (!lastShoppingList) return;
     setLastShoppingList(lastShoppingList);
+  };
+
+  const handleCheckProductBought = async (
+    list: ShoppingList,
+    product: ProductInList
+  ) => {
+    const updatedShoppingList = list.products.map((productInList) => {
+      if (productInList.product.id === product.product.id) {
+        return {
+          ...productInList,
+          isBought: !productInList.isBought,
+        };
+      }
+      return productInList;
+    });
+    setLastShoppingList({
+      ...list,
+      products: updatedShoppingList,
+    });
+    await updateShoppingList({
+      ...list,
+      products: updatedShoppingList,
+    });
   };
 
   const handleGenerateShopList = (): ReactNode => {
@@ -74,7 +98,16 @@ const Home = () => {
         <div className="flex flex-col gap-2">
           {lastShoppingList.products.map((product, index) => (
             <div key={index} className="grid grid-cols-2 text-center">
-              <p>{product.product.name}</p>
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  checked={product.isBought}
+                  onChange={() =>
+                    handleCheckProductBought(lastShoppingList, product)
+                  }
+                />
+                <p>{product.product.name}</p>
+              </div>
               <p>{product.quantity}</p>
             </div>
           ))}
