@@ -10,6 +10,7 @@ interface ShoppingList {
 
 interface ProductInList {
   id: string;
+  isBought: boolean;
   product: Product;
   quantity: string;
   aisle: string;

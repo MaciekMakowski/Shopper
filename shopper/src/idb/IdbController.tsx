@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 
 const initDB = async () => {
-  const db = await openDB("userData", 3, {
+  const db = await openDB("userData", 5, {
     upgrade(db) {
       if (!db.objectStoreNames.contains("shops")) {
         db.createObjectStore("shops", { keyPath: "id" });

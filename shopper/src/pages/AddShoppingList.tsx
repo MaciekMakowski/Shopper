@@ -31,6 +31,7 @@ const AddShoppingList = () => {
     product: emptyProduct,
     quantity: "",
     aisle: "",
+    isBought: false,
   });
   const navigate = useNavigate();
 
@@ -63,10 +64,17 @@ const AddShoppingList = () => {
           product: newProduct.product,
           quantity: newProduct.quantity,
           aisle: aisle?.name || "",
+          isBought: false,
         },
       ],
     });
-    setNewProduct({ id: "", product: emptyProduct, quantity: "", aisle: "" });
+    setNewProduct({
+      id: "",
+      product: emptyProduct,
+      quantity: "",
+      aisle: "",
+      isBought: false,
+    });
     setFilteredProducts([]);
   };
 
@@ -170,6 +178,7 @@ const AddShoppingList = () => {
           product: newProduct.product,
           quantity: newProduct.quantity,
           aisle: newProduct.aisle,
+          isBought: false,
         },
       ],
     });
@@ -179,7 +188,13 @@ const AddShoppingList = () => {
       .find((aisle) => aisle.id === newProduct.aisle)
       ?.products.find((product) => product.name === newProduct.product.name);
 
-    setNewProduct({ id: "", product: emptyProduct, quantity: "", aisle: "" });
+    setNewProduct({
+      id: "",
+      product: emptyProduct,
+      quantity: "",
+      aisle: "",
+      isBought: false,
+    });
     if (!productToAdd) return;
     addProduct(productToAdd);
   };
