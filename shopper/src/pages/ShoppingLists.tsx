@@ -1,6 +1,7 @@
 import EditIcon from "@/assets/icons/editIcon.svg?react";
 import ExportIcon from "@/assets/icons/export.svg?react";
 import Delete from "@/assets/icons/trashcan.svg?react";
+import AreYouSureModal from "@/components/shared/AreYouSureModal";
 import {
   deleteShoppingList,
   getAllShoppingLists,
@@ -107,11 +108,17 @@ const ShoppingLists = () => {
                       navigate(`/edit-shopping-list/${shoppingList.id}`)
                     }
                   />
-                  <Delete
-                    className="cursor-pointer"
-                    width={24}
-                    height={24}
-                    onClick={() => handleDeleteShoppingList(shoppingList.id)}
+                  <AreYouSureModal
+                    onConfirm={() => handleDeleteShoppingList(shoppingList.id)}
+                    title="Delete Shopping List"
+                    message="Are you sure you want to delete this shopping list?"
+                    trigger={
+                      <Delete
+                        className="cursor-pointer"
+                        width={24}
+                        height={24}
+                      />
+                    }
                   />
                 </div>
               </div>

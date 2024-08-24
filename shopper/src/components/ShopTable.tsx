@@ -9,11 +9,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import React, { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Shop, ShopTableProps } from "../interfaces/shop";
+import AreYouSureModal from "./shared/AreYouSureModal";
 
-const ShopTable: React.FC<ShopTableProps> = ({ shops, onDelete }) => {
+const ShopTable: FC<ShopTableProps> = ({ shops, onDelete }) => {
   const navigate = useNavigate();
   const columns = useMemo<ColumnDef<Shop>[]>(
     () => [
@@ -44,9 +45,12 @@ const ShopTable: React.FC<ShopTableProps> = ({ shops, onDelete }) => {
             <button onClick={() => navigate(`/edit-shop/${row.original.id}`)}>
               <EditIcon width={24} height={24} />
             </button>
-            <button onClick={() => onDelete(row.original.id)}>
-              <TrashcanIcon width={24} height={24} />
-            </button>
+            <AreYouSureModal
+              onConfirm={() => onDelete(row.original.id)}
+              title="Delete Shop"
+              message="Are you sure you want to delete this shop?"
+              trigger={<TrashcanIcon width={24} height={24} />}
+            />
           </div>
         ),
       },

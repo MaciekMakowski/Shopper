@@ -834,6 +834,10 @@ video {
   border-bottom-width: 4px;
 }
 
+.border-l {
+  border-left-width: 1px;
+}
+
 .border-dashed {
   border-style: dashed;
 }
@@ -970,6 +974,11 @@ video {
   line-height: 1.75rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -980,6 +989,10 @@ video {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-light {
+  font-weight: 300;
 }
 
 .italic {

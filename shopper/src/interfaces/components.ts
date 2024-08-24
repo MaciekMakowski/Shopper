@@ -32,4 +32,18 @@ interface AddProductModalProps {
   newShoppingList: ShoppingList;
 }
 
-export { AccordionProps, AddProductModalProps, ModalProps, ShopDropdownProps };
+interface AreYouSureModalProps {
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  trigger: ReactNode;
+  className?: string;
+}
+
+export {
+  AccordionProps,
+  AddProductModalProps,
+  AreYouSureModalProps,
+  ModalProps,
+  ShopDropdownProps,
+};

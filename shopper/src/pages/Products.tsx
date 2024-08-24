@@ -1,4 +1,5 @@
 import DeleteIcon from "@/assets/icons/trashcan.svg?react";
+import AreYouSureModal from "@/components/shared/AreYouSureModal";
 import { deleteProduct, getAllProducts } from "@/idb/productsController";
 import { Product } from "@/interfaces/shop";
 import { useEffect, useState } from "react";
@@ -50,9 +51,12 @@ const Products = () => {
             className="p-2 border border-primary rounded-md w-fit flex items-center gap-2 bg-stone-50 shadow-md"
           >
             {product.name}
-            <button>
-              <DeleteIcon onClick={() => handleDeleteProduct(product.id)} />
-            </button>
+            <AreYouSureModal
+              onConfirm={() => handleDeleteProduct(product.id)}
+              title="Delete Product"
+              message="Are you sure you want to delete this product?"
+              trigger={<DeleteIcon />}
+            />
           </li>
         ))}
       </ul>

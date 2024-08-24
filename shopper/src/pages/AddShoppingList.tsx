@@ -2,6 +2,7 @@ import AddIcon from "@/assets/icons/addIcon.svg?react";
 import TrashcanIcon from "@/assets/icons/trashcan.svg?react";
 import AddProductModal from "@/components/addShoppingList/AddProductModal";
 import ShopDropdown from "@/components/addShoppingList/ShopDropdown";
+import AreYouSureModal from "@/components/shared/AreYouSureModal";
 import { addProduct } from "@/idb/productsController";
 import { getAllShops, updateShop } from "@/idb/shopController";
 import {
@@ -357,14 +358,15 @@ const AddShoppingList = () => {
                 <span className="text-center overflow-y-hidden overflow-x-auto no-scrollbar text-nowrap truncate">
                   {product.aisle}
                 </span>
-                <button
-                  className="flex justify-center"
-                  onClick={() =>
+                <AreYouSureModal
+                  onConfirm={() =>
                     handleDeleteProductFromShoppingList(product.product.id)
                   }
-                >
-                  <TrashcanIcon width={24} height={24} />
-                </button>
+                  title="Delete Product"
+                  message="Are you sure you want to delete this product?"
+                  trigger={<TrashcanIcon width={24} height={24} />}
+                  className="flex justify-center"
+                />
               </li>
             ))}
           </ul>

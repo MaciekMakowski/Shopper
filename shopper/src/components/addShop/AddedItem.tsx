@@ -6,6 +6,7 @@ import IconUp from "@/assets/icons/upIcon.svg?react";
 import { AddedItemsProps } from "@/interfaces/addShop";
 import { Shop } from "@/interfaces/shop";
 import { FC, useState } from "react";
+import AreYouSureModal from "../shared/AreYouSureModal";
 const AddedItem: FC<AddedItemsProps> = ({
   item,
   handleDeleteItem,
@@ -96,12 +97,13 @@ const AddedItem: FC<AddedItemsProps> = ({
                 />
               </button>
             )}
-            <button
+            <AreYouSureModal
+              onConfirm={() => handleDeleteItem(item.id)}
+              title="Delete Item"
+              message="Are you sure you want to delete this item?"
+              trigger={<Trashcan width={20} height={20} />}
               className="text-danger rounded-md"
-              onClick={() => handleDeleteItem(item.id)}
-            >
-              <Trashcan width={20} height={20} />
-            </button>
+            />
           </div>
         </>
       )}
