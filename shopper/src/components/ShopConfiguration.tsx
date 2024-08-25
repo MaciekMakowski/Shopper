@@ -174,7 +174,7 @@ const ShopConfiguration = () => {
   return (
     <>
       <button
-        className="absolute right-10 top-10 border-2 border-primary py-2 px-6 rounded-md"
+        className="absolute right-10 top-5 border-2 border-primary py-2 px-6 rounded-md"
         onClick={handleExportShop}
       >
         Export shop
