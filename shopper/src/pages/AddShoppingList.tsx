@@ -29,7 +29,7 @@ const AddShoppingList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [newAisle, setNewAisle] = useState<Aisle>(emptyAisle);
   const [newProduct, setNewProduct] = useState<ProductInList>({
-    id: "",
+    id: uuidv4(),
     product: emptyProduct,
     quantity: "",
     aisle: "",
@@ -71,7 +71,7 @@ const AddShoppingList = () => {
       ],
     });
     setNewProduct({
-      id: "",
+      id: uuidv4(),
       product: emptyProduct,
       quantity: "",
       aisle: "",
@@ -165,7 +165,7 @@ const AddShoppingList = () => {
             ...aisle.products,
             {
               id: uuidv4(),
-              name: newProduct.product.name,
+              name: newProduct.product.name.toLowerCase(),
             },
           ],
         };
