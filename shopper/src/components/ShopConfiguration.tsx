@@ -19,6 +19,18 @@ const ShopConfiguration = () => {
   const [activeAisle, setActiveAisle] = useState<Aisle | null>(null);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
 
+  const handleExportShop = () => {
+    const blob = new Blob([JSON.stringify(newShop, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${newShop.name || "shop"}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleAddAisleToShop = () => {
     if (!newAisle.name) {
       alert("Aisle name is required");
@@ -160,76 +172,84 @@ const ShopConfiguration = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="shopName">Shop Name*</label>
-          <input
-            id="shopName"
-            type="text"
-            value={newShop.name}
-            onChange={(e) => setNewShop({ ...newShop, name: e.target.value })}
-            className="p-2 border border-gray-300 rounded-md"
-          />
+    <>
+      <button
+        className="absolute right-10 top-10 border-2 border-primary py-2 px-6 rounded-md"
+        onClick={handleExportShop}
+      >
+        Export shop
+      </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="shopName">Shop Name*</label>
+            <input
+              id="shopName"
+              type="text"
+              value={newShop.name}
+              onChange={(e) => setNewShop({ ...newShop, name: e.target.value })}
+              className="p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="shopLocation">Shop Location*</label>
+            <input
+              id="shopLocation"
+              type="text"
+              value={newShop.location}
+              onChange={(e) =>
+                setNewShop({ ...newShop, location: e.target.value })
+              }
+              className="p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="shopDescription">Shop Description</label>
+            <input
+              id="shopDescription"
+              type="text"
+              value={newShop.description}
+              onChange={(e) =>
+                setNewShop({ ...newShop, description: e.target.value })
+              }
+              className="p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <button
+            className="px-6 py-2 bg-primary rounded-md text-white"
+            onClick={() => handleSaveShop()}
+          >
+            Save Shop
+          </button>
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="shopName">Shop Location*</label>
-          <input
-            id="shopName"
-            type="text"
-            value={newShop.location}
-            onChange={(e) =>
-              setNewShop({ ...newShop, location: e.target.value })
-            }
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="shopName">Shop Description</label>
-          <input
-            id="shopDescription"
-            type="text"
-            value={newShop.description}
-            onChange={(e) =>
-              setNewShop({ ...newShop, description: e.target.value })
-            }
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-        <button
-          className="px-6 py-2 bg-primary rounded-md text-white"
-          onClick={() => handleSaveShop()}
-        >
-          Save Shop
-        </button>
+        <AisleColumn
+          isAddingAisle={isAddingAisle}
+          setIsAddingAisle={setIsAddingAisle}
+          newAisle={newAisle}
+          setNewAisle={setNewAisle}
+          handleAddAisleToShop={handleAddAisleToShop}
+          newShop={newShop}
+          setNewShop={setNewShop}
+          handleDeleteAisle={handleDeleteAisle}
+          handleOpenAddProduct={handleOpenAddProduct}
+          hangeAislePosition={hangeAislePosition}
+        />
+        <ProductColumn
+          activeAisle={activeAisle}
+          isAddingAisle={isAddingAisle}
+          isAddingProduct={isAddingProduct}
+          setIsAddingProduct={setIsAddingProduct}
+          newProduct={newProduct}
+          setNewProduct={setNewProduct}
+          newShop={newShop}
+          setNewShop={setNewShop}
+          handleAddProductToAisle={handleAddProductToAisle}
+          handleDeleteProduct={handleDeleteProduct}
+          getProducts={getProducts}
+          allProducts={allProducts}
+        />
       </div>
-      <AisleColumn
-        isAddingAisle={isAddingAisle}
-        setIsAddingAisle={setIsAddingAisle}
-        newAisle={newAisle}
-        setNewAisle={setNewAisle}
-        handleAddAisleToShop={handleAddAisleToShop}
-        newShop={newShop}
-        setNewShop={setNewShop}
-        handleDeleteAisle={handleDeleteAisle}
-        handleOpenAddProduct={handleOpenAddProduct}
-        hangeAislePosition={hangeAislePosition}
-      />
-      <ProductColumn
-        activeAisle={activeAisle}
-        isAddingAisle={isAddingAisle}
-        isAddingProduct={isAddingProduct}
-        setIsAddingProduct={setIsAddingProduct}
-        newProduct={newProduct}
-        setNewProduct={setNewProduct}
-        newShop={newShop}
-        setNewShop={setNewShop}
-        handleAddProductToAisle={handleAddProductToAisle}
-        handleDeleteProduct={handleDeleteProduct}
-        getProducts={getProducts}
-        allProducts={allProducts}
-      />
-    </div>
+    </>
   );
 };
 

@@ -1,160 +1,77 @@
-import EditIcon from "@/assets/icons/editIcon.svg?react";
-import ExportIcon from "@/assets/icons/export.svg?react";
-import Delete from "@/assets/icons/trashcan.svg?react";
-import AreYouSureModal from "@/components/shared/AreYouSureModal";
+import ShoppingListItem from "@/components/ShoppingList";
 import {
-  deleteShoppingList,
   getAllShoppingLists,
-  updateShoppingList,
+  saveShoppingList,
 } from "@/idb/shoppingListController";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Product } from "../interfaces/shop";
-import { ProductInList, ShoppingList } from "../interfaces/shoppingList";
+import { ShoppingListSchema } from "@/zod/validators";
+import { ChangeEvent, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { ShoppingList } from "../interfaces/shoppingList";
+
 const ShoppingLists = () => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
-  const navigate = useNavigate();
+
   const handleGetShoppingLists = async () => {
-    const shoppingLists = await getAllShoppingLists();
-    if (!shoppingLists || shoppingLists.length === 0) return;
-    setShoppingLists(shoppingLists);
+    const lists = await getAllShoppingLists();
+    if (!lists || lists.length === 0) return;
+    setShoppingLists(lists);
   };
 
-  const handleDeleteShoppingList = (id: string) => {
-    setShoppingLists(shoppingLists.filter((list) => list.id !== id));
-    deleteShoppingList(id);
+  const handleImportShoppingList = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const jsonData = JSON.parse(text);
+
+      const validatedList = ShoppingListSchema.parse(jsonData);
+
+      validatedList.id = uuidv4();
+
+      await saveShoppingList(validatedList);
+
+      setShoppingLists((prev) => [...prev, validatedList]);
+    } catch (error) {
+      console.error("Error", error);
+      alert("Invalid file format");
+    }
   };
 
   useEffect(() => {
     handleGetShoppingLists();
   }, []);
 
-  const exportToStorage = (products: ProductInList[]) => {
-    let currentAisle = "";
-    const listFromProductsAsText = products
-      .map((product) => {
-        let result = "";
-        if (product.aisle !== currentAisle) {
-          currentAisle = product.aisle;
-          result += `${currentAisle}:\n`;
-        }
-        result += `  ${product.product.name} - ${product.quantity}`;
-        return result;
-      })
-      .join("\n");
-
-    navigator.clipboard.writeText(listFromProductsAsText);
-  };
-
-  const handleCheckProductBought = async (
-    shoppingList: ShoppingList,
-    product: Product
-  ) => {
-    const updatedShoppingList = shoppingList.products.map((productInList) => {
-      if (productInList.product.id === product.id) {
-        return {
-          ...productInList,
-          isBought: !productInList.isBought,
-        };
-      }
-      return productInList;
-    });
-    setShoppingLists(
-      shoppingLists.map((list) => {
-        if (list.id === shoppingList.id) {
-          return { ...list, products: updatedShoppingList };
-        }
-        return list;
-      })
-    );
-    await updateShoppingList({
-      ...shoppingList,
-      products: updatedShoppingList,
-    });
-  };
-
   return (
-    <div className="flex flex-col gap-4 p-4 w-full">
+    <div className="flex flex-col gap-4 p-4 w-full relative">
       <h1 className="text-3xl font-bold font-secondary">Shopping Lists</h1>
       <p>Here you can see list of all your shopping lists</p>
+      <div className="flex justify-between w-full items-center">
+        <div className="absolute top-10 right-5">
+          <input
+            type="file"
+            accept=".json"
+            onChange={handleImportShoppingList}
+            className="hidden"
+            id="importShoppingList"
+          />
+          <label
+            htmlFor="importShoppingList"
+            className="cursor-pointer bg-primary text-white px-4 py-2 rounded-md"
+          >
+            Import Shopping List
+          </label>
+        </div>
+      </div>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full gap-8 max-h-[70vh] overflow-y-auto">
-        {shoppingLists.map((shoppingList) => {
-          const isAllProductsBought = shoppingList.products.every(
-            (product) => product.isBought
-          );
-          return (
-            <li
-              key={shoppingList.id}
-              className={`p-4 border border-gray-300  rounded-md ${
-                isAllProductsBought ? "bg-green-100" : "bg-white"
-              }`}
-            >
-              <div className="flex justify-between">
-                <span className="font-semibold text-xl">
-                  {shoppingList.name}
-                </span>
-                <div className="flex gap-2">
-                  <ExportIcon
-                    className="cursor-pointer"
-                    width={24}
-                    height={24}
-                    onClick={() => exportToStorage(shoppingList.products)}
-                  />
-                  <EditIcon
-                    className="cursor-pointer"
-                    width={24}
-                    height={24}
-                    onClick={() =>
-                      navigate(`/edit-shopping-list/${shoppingList.id}`)
-                    }
-                  />
-                  <AreYouSureModal
-                    onConfirm={() => handleDeleteShoppingList(shoppingList.id)}
-                    title="Delete Shopping List"
-                    message="Are you sure you want to delete this shopping list?"
-                    trigger={
-                      <Delete
-                        className="cursor-pointer"
-                        width={24}
-                        height={24}
-                      />
-                    }
-                  />
-                </div>
-              </div>
-              <div className="flex gap-2 items-end">
-                <span>{shoppingList.shop.name}</span>
-                <span className="text-sm">{shoppingList.date}</span>
-              </div>
-              <ul className="flex flex-col gap-2">
-                <li className="grid grid-cols-2 w-full">
-                  <span className="font-semibold text-center">Product</span>
-                  <span className="font-semibold text-center">Quantity</span>
-                </li>
-                {shoppingList.products.map((product, index) => (
-                  <li key={index} className="grid grid-cols-2 w-full">
-                    <div className="flex gap-2 items-center">
-                      <input
-                        type="checkbox"
-                        checked={product.isBought}
-                        onChange={() =>
-                          handleCheckProductBought(
-                            shoppingList,
-                            product.product
-                          )
-                        }
-                      />
-                      <span className="text-center">
-                        {product.product.name}
-                      </span>
-                    </div>
-                    <span className="text-center">{product.quantity}</span>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          );
-        })}
+        {shoppingLists.map((shoppingList) => (
+          <ShoppingListItem
+            key={shoppingList.id}
+            shoppingList={shoppingList}
+            setShoppingLists={setShoppingLists}
+            shoppingLists={shoppingLists}
+          />
+        ))}
       </ul>
     </div>
   );
