@@ -47,7 +47,7 @@ const ShoppingLists = () => {
       <h1 className="text-3xl font-bold font-secondary">Shopping Lists</h1>
       <p>Here you can see list of all your shopping lists</p>
       <div className="flex justify-between w-full items-center">
-        <div className="absolute top-5 right-5">
+        <div className="absolute top-5 md:top-10 right-5">
           <input
             type="file"
             accept=".json"
