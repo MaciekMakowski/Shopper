@@ -154,11 +154,11 @@ const AddShoppingList = () => {
     toast.success("Shopping list saved successfully");
   };
 
-  const handleSaveProduct = () => {
+  const handleSaveProduct = async () => {
     setIsOpen(false);
     const updatedShop = newShoppingList.shop;
     updatedShop.aisles = updatedShop.aisles.map((aisle) => {
-      if (aisle.id === newProduct.aisle) {
+      if (aisle.name === newProduct.aisle) {
         return {
           ...aisle,
           products: [
@@ -179,7 +179,10 @@ const AddShoppingList = () => {
         ...newShoppingList.products,
         {
           id: uuidv4(),
-          product: newProduct.product,
+          product: {
+            ...newProduct,
+            name: newProduct.product.name.toLowerCase(),
+          },
           quantity: newProduct.quantity,
           aisle: newProduct.aisle,
           isBought: false,
@@ -187,20 +190,28 @@ const AddShoppingList = () => {
       ],
     });
 
-    updateShop(updatedShop);
+    await updateShop(updatedShop);
+
     const productToAdd = updatedShop.aisles
       .find((aisle) => aisle.id === newProduct.aisle)
-      ?.products.find((product) => product.name === newProduct.product.name);
+      ?.products.find(
+        (product) => product.name === newProduct.product.name.toLowerCase()
+      );
 
+    setProducts([
+      ...products,
+      { ...newProduct, name: newProduct.product.name.toLowerCase() },
+    ]);
     setNewProduct({
-      id: "",
+      id: uuidv4(),
       product: emptyProduct,
       quantity: "",
       aisle: "",
       isBought: false,
     });
+
     if (!productToAdd) return;
-    addProduct(productToAdd);
+    await addProduct(productToAdd);
   };
 
   const handleGetShoppingList = async (id: string) => {

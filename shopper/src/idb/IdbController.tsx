@@ -4,7 +4,8 @@ const initDB = async () => {
   const db = await openDB("userData", 5, {
     upgrade(db) {
       if (!db.objectStoreNames.contains("shops")) {
-        db.createObjectStore("shops", { keyPath: "id" });
+        const shopsStore = db.createObjectStore("shops", { keyPath: "id" });
+        shopsStore.createIndex("nameIndex", "name", { unique: false });
       }
 
       if (!db.objectStoreNames.contains("products")) {
