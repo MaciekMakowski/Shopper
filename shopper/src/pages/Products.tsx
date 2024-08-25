@@ -3,6 +3,7 @@ import AreYouSureModal from "@/components/shared/AreYouSureModal";
 import { deleteProduct, getAllProducts } from "@/idb/productsController";
 import { Product } from "@/interfaces/shop";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -26,6 +27,7 @@ const Products = () => {
   const handleDeleteProduct = async (id: string) => {
     await deleteProduct(id);
     setProducts(products.filter((product) => product.id !== id));
+    toast.success("Product deleted successfully");
   };
 
   useEffect(() => {

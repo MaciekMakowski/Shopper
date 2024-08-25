@@ -8,6 +8,7 @@ import {
 } from "@/idb/shoppingListController";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Product } from "../interfaces/shop";
 import { ShoppingList } from "../interfaces/shoppingList";
 import ExportListModal from "./ExportListModal";
@@ -31,6 +32,7 @@ const ShoppingListItem: FC<ShoppingListProps> = ({
   const handleDeleteShoppingList = (id: string) => {
     setShoppingLists(shoppingLists.filter((list) => list.id !== id));
     deleteShoppingList(id);
+    toast.success("Shopping list deleted successfully");
   };
   const handleCheckProductBought = async (
     shoppingList: ShoppingList,

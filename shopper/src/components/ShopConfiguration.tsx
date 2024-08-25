@@ -4,6 +4,7 @@ import { getShop, saveShop, updateShop } from "@/idb/shopController";
 import { Aisle, Product, Shop } from "@/interfaces/shop";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { addProducts, getAllProducts } from "../idb/productsController";
 import { emptyAisle, emptyProduct, emptyShop } from "../mockups/addShop";
@@ -33,7 +34,7 @@ const ShopConfiguration = () => {
 
   const handleAddAisleToShop = () => {
     if (!newAisle.name) {
-      alert("Aisle name is required");
+      toast.error("Aisle name is required");
       return;
     }
     setNewShop({
@@ -45,7 +46,7 @@ const ShopConfiguration = () => {
 
   const handleAddProductToAisle = (newAisle: Aisle) => {
     if (!newProduct.name) {
-      alert("Product name is required");
+      toast.error("Product name is required");
       return;
     }
     if (
@@ -54,7 +55,7 @@ const ShopConfiguration = () => {
           product.name.toLowerCase() === newProduct.name.toLowerCase()
       )
     ) {
-      alert("Product already exists in this aisle");
+      toast.error("Product already exists in this aisle");
       return;
     }
     setNewShop({
@@ -112,15 +113,15 @@ const ShopConfiguration = () => {
 
   const validateShop = () => {
     if (!newShop.name || !newShop.location) {
-      alert("Shop name and location are required");
+      toast.error("Shop name and location are required");
       return false;
     }
     if (newShop.aisles.length === 0) {
-      alert("Shop should have at least one aisle");
+      toast.error("Shop should have at least one aisle");
       return false;
     }
     if (newShop.aisles.some((aisle) => aisle.products.length === 0)) {
-      alert("Aisle should have at least one product");
+      toast.error("Aisle should have at least one product");
       return false;
     }
     if (
@@ -128,7 +129,7 @@ const ShopConfiguration = () => {
         aisle.products.some((product) => !product.name)
       )
     ) {
-      alert("Product name is required");
+      toast.error("Product name is required");
       return false;
     }
     return true;

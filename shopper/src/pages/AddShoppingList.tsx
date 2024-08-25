@@ -16,6 +16,7 @@ import { emptyAisle, emptyProduct } from "@/mockups/addShop";
 import { emptyShoppingList } from "@/mockups/shoppingList";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
 const AddShoppingList = () => {
@@ -44,8 +45,8 @@ const AddShoppingList = () => {
 
   const handleAddProduct = () => {
     if (newProduct.product.name === "")
-      return alert("Please enter product name");
-    if (newProduct.quantity === "") return alert("Please enter quantity");
+      return toast.error("Please enter product name");
+    if (newProduct.quantity === "") return toast.error("Please enter quantity");
     const product = products.find(
       (product) => product.name === newProduct.product.name
     );
@@ -98,8 +99,7 @@ const AddShoppingList = () => {
 
   const addNewAisle = () => {
     if (newAisle.name === "") {
-      alert("Please enter aisle name");
-      return;
+      return toast.error("Please enter aisle name");
     }
     const aislesFromShop = newShoppingList.shop.aisles.map(
       (aisle) => aisle.name
@@ -124,10 +124,12 @@ const AddShoppingList = () => {
   };
 
   const handleGenerateShoppingList = async () => {
-    if (!newShoppingList.shop.name) return alert("Please select shop first");
-    if (!newShoppingList.name) return alert("Please enter shopping list name");
+    if (!newShoppingList.shop.name)
+      return toast.error("Please select shop first");
+    if (!newShoppingList.name)
+      return toast.error("Please enter shopping list name");
     if (newShoppingList.products.length < 1)
-      return alert("Please add products to shopping list");
+      return toast.error("Please add products to shopping list");
     const ailesOrder = newShoppingList.shop.aisles.map((aisle) => aisle.name);
     const sortedProductsByAisle = newShoppingList.products.sort(
       (a, b) => ailesOrder.indexOf(a.aisle) - ailesOrder.indexOf(b.aisle)
@@ -149,6 +151,7 @@ const AddShoppingList = () => {
     }
 
     navigate("/shopping-lists");
+    toast.success("Shopping list saved successfully");
   };
 
   const handleSaveProduct = () => {

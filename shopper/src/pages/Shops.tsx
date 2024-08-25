@@ -2,6 +2,7 @@ import ShopTable from "@/components/ShopTable";
 import { deleteShop, getAllShops, saveShop } from "@/idb/shopController";
 import { ShopSchema } from "@/zod/validators";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { Shop } from "../interfaces/shop";
 const Shops = () => {
@@ -17,6 +18,7 @@ const Shops = () => {
   const handleDeleteShop = (id: string) => {
     setShops(shops.filter((shop) => shop.id !== id));
     deleteShop(id);
+    toast.success("Shop deleted successfully");
   };
 
   useEffect(() => {
@@ -37,9 +39,10 @@ const Shops = () => {
       await saveShop(validatedShop);
 
       setShops((prev) => [...prev, validatedShop]);
+      toast.success("Shop imported successfully");
     } catch (error) {
       console.error("Erron:", error);
-      alert("Invalid file format");
+      toast.error("Invalid file format");
     }
   };
 

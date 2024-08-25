@@ -1,5 +1,6 @@
 import { ProductInList, ShoppingList } from "@/interfaces/shoppingList";
 import { Dispatch, FC, SetStateAction } from "react";
+import { toast } from "react-toastify";
 import Modal from "./shared/Modal";
 
 interface ExportListModalProps {
@@ -23,6 +24,7 @@ const ExportListModal: FC<ExportListModalProps> = ({
     a.download = `${list.name || "list"}.json`;
     a.click();
     URL.revokeObjectURL(url);
+    toast.info("List exported successfully");
   };
 
   const exportToStorage = () => {
@@ -40,6 +42,7 @@ const ExportListModal: FC<ExportListModalProps> = ({
       .join("\n");
 
     navigator.clipboard.writeText(listFromProductsAsText);
+    toast.info("List copied to clipboard");
   };
 
   return (

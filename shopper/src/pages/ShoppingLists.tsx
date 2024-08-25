@@ -5,6 +5,7 @@ import {
 } from "@/idb/shoppingListController";
 import { ShoppingListSchema } from "@/zod/validators";
 import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { ShoppingList } from "../interfaces/shoppingList";
 
@@ -32,9 +33,10 @@ const ShoppingLists = () => {
       await saveShoppingList(validatedList);
 
       setShoppingLists((prev) => [...prev, validatedList]);
+      toast.success("Shopping list imported successfully");
     } catch (error) {
       console.error("Error", error);
-      alert("Invalid file format");
+      toast.error("Invalid file format");
     }
   };
 
