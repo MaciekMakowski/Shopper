@@ -31,6 +31,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <Home />
             </motion.div>
@@ -45,6 +46,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <AddShop />
             </motion.div>
@@ -59,6 +61,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <Shops />
             </motion.div>
@@ -73,6 +76,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <AddShop />
             </motion.div>
@@ -87,6 +91,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <Products />
             </motion.div>
@@ -101,6 +106,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <AddShoppingList />
             </motion.div>
@@ -115,6 +121,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <AddShoppingList />
             </motion.div>
@@ -129,6 +136,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <ShoppingLists />
             </motion.div>
@@ -143,6 +151,7 @@ const AnimatedRoutes: FC = () => {
               animate="animate"
               exit="exit"
               transition={pageTransition}
+              className="h-full"
             >
               <h1>404</h1>
             </motion.div>

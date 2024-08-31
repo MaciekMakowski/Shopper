@@ -1,7 +1,7 @@
+import { v4 as uuidv4 } from "uuid";
 import { Aisle, Product, Shop } from "../interfaces/shop";
-
 const emptyShop: Shop = {
-  id: "",
+  id: uuidv4(),
   name: "",
   description: "",
   location: "",
@@ -9,13 +9,13 @@ const emptyShop: Shop = {
 };
 
 const emptyAisle: Aisle = {
-  id: "",
+  id: uuidv4(),
   name: "",
   products: [],
 };
 
 const emptyProduct: Product = {
-  id: "",
+  id: uuidv4(),
   name: "",
 };
 
